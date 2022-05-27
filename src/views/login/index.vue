@@ -43,7 +43,7 @@
         </span>
       </el-form-item>
 
-      <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
       <div class="tips">
         <span style="margin-right:20px;">账号: 13800000002</span>
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { login } from '@/api/user'
 import { validMobile } from '@/utils/validate'
 
 export default {
@@ -77,7 +78,7 @@ export default {
     // }
     return {
       loginForm: {
-        mobile: '13800000003',
+        mobile: '13800000002',
         password: '123456'
       },
       loginRules: {
@@ -112,21 +113,24 @@ export default {
         this.$refs.password.focus()
       })
     },
+    // 登录
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+      this.$refs.loginForm.validate(async valid => {
+        if (!valid) return
+
+        this.doLogin()
       })
+    },
+    async doLogin() {
+      try {
+        const res = await login(this.loginForm)
+        this.$message.success(res.message)
+        // console.log(res)
+        this.$store.commit('user/updateToken', res.data)
+      } catch (e) {
+        // console.log(e)
+        this.$message.error(e.message)
+      }
     }
   }
 }

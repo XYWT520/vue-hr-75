@@ -1,7 +1,13 @@
 export default {
   namespaced: true,
-  state: {},
-  mutations: {},
+  state: {
+    token: ''
+  },
+  mutations: {
+    updateToken(state, payload) {
+      state.token = payload
+    }
+  },
   actions: {},
   getters: {}
 }
