@@ -61,7 +61,6 @@ import { validMobile } from '@/utils/validate'
 export default {
   name: 'Login',
   data() {
-    // 函数封装的思想
     const validateMobile = (rule, value, callback) => {
       if (!validMobile(value)) {
         callback(new Error('手机号格式错误'))
