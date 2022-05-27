@@ -1,4 +1,5 @@
 import { getToken, setToken } from '@/utils/auth'
+import { login } from '@/api/user'
 
 export default {
   namespaced: true,
@@ -12,6 +13,14 @@ export default {
       setToken(payload)
     }
   },
-  actions: {},
+  actions: {
+    async userLogin(context, payload) {
+      const res = await login(payload)
+
+      context.commit('updateToken', res.data)
+
+      return res
+    }
+  },
   getters: {}
 }

@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { login } from '@/api/user'
+
 import { validMobile } from '@/utils/validate'
 
 export default {
@@ -129,10 +129,8 @@ export default {
     // },
     async doLogin() {
       try {
-        const res = await login(this.loginForm)
+        const res = await this.$store.dispatch('user/userLogin', this.loginForm)
         this.$message.success(res.message)
-        // console.log(res)
-        this.$store.commit('user/updateToken', res.data)
       } catch (e) {
         // console.log(e)
         this.$message.error(e.message)
