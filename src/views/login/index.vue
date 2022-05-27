@@ -43,7 +43,9 @@
         </span>
       </el-form-item>
 
-      <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+
+      <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="getToken">token</el-button>
 
       <div class="tips">
         <span style="margin-right:20px;">账号: 13800000002</span>
@@ -55,6 +57,7 @@
 </template>
 
 <script>
+import { getUserInfo } from '@/api/user'
 import { validMobile } from '@/utils/validate'
 
 export default {
@@ -76,7 +79,7 @@ export default {
     // }
     return {
       loginForm: {
-        mobile: '13800000003',
+        mobile: '13800000002',
         password: '123456'
       },
       loginRules: {
@@ -111,21 +114,27 @@ export default {
         this.$refs.password.focus()
       })
     },
+    // 登录
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+      this.$refs.loginForm.validate(async valid => {
+        if (!valid) return
+
+        this.doLogin()
       })
+    },
+    // 测试token
+    async getToken() {
+      const res = await getUserInfo()
+      console.log(res)
+    },
+    async doLogin() {
+      try {
+        const res = await this.$store.dispatch('user/userLogin', this.loginForm)
+        this.$message.success(res.message)
+      } catch (e) {
+        // console.log(e)
+        this.$message.error(e.message)
+      }
     }
   }
 }
