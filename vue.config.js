@@ -38,8 +38,8 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        // target: 'http://localhost:3000'
-        target: 'http://192.168.72.79:3000'
+        target: 'http://localhost:3000'
+        // target: 'http://192.168.72.79:3000'
       }
     }
   },

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '@/store'
 
 // create an axios instance
 const service = axios.create({
@@ -7,6 +8,20 @@ const service = axios.create({
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
+
+// 添加请求拦截器
+service.interceptors.request.use(
+  config => {
+    const token = store.state.user.token
+    // 如果当前存有token,就加在请求头上
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
+    return config
+  }
+  , error => {
+    return Promise.reject(error)
+  })
 
 // 响应拦截器
 service.interceptors.response.use(response => {
