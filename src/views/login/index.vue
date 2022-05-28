@@ -122,11 +122,7 @@ export default {
         this.doLogin()
       })
     },
-    // 测试token
-    async getToken() {
-      const res = await getUserInfo()
-      console.log(res)
-    },
+    // 此处是调用上面的登录
     async doLogin() {
       try {
         const res = await this.$store.dispatch('user/userLogin', this.loginForm)
@@ -135,6 +131,12 @@ export default {
         // console.log(e)
         this.$message.error(e.message)
       }
+    },
+
+    // 测试token
+    async getToken() {
+      const res = await getUserInfo()
+      console.log(res)
     }
   }
 }
