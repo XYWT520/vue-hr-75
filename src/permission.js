@@ -1,8 +1,42 @@
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css' // progress bar style
+import router from '@/router'
+import store from '@/store'
+
+const widthList = ['/login', '/404']
+
+router.beforeEach((to, from, next) => {
+  NProgress.start()
+  const token = store.state.user.token
+  if (token) {
+    // 有token 表示已登录
+    if (to.path === '/login') {
+      // 你已经登陆了, 还要去登录页, 那我就不让你去, 直接把你打回首页
+      next('/')
+      NProgress.done()
+    } else {
+      // 你以及登录了, 要去登录页以外的地方, 那我就让你去, 放行
+      next()
+    }
+  } else {
+    // 没有token 表示未登录
+    if (widthList.includes(to.path)) {
+      // 你没有登录, 要去登录页, 那可以去, 放行
+      next()
+    } else {
+      next('/login')
+      NProgress.done()
+    }
+  }
+})
+
+router.afterEach(() => {
+  NProgress.done()
+//   alert('哈哈哈')
+})
 // import router from './router'
 // import store from './store'
 // import { Message } from 'element-ui'
-// import NProgress from 'nprogress' // progress bar
-// import 'nprogress/nprogress.css' // progress bar style
 // import { getToken } from '@/utils/auth' // get token from cookie
 // import getPageTitle from '@/utils/get-page-title'
 
