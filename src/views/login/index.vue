@@ -45,7 +45,11 @@
 
       <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
+<<<<<<< HEAD
       <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="getToken">token</el-button>
+=======
+      <!-- <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="getToken">token</el-button> -->
+>>>>>>> b13b6d2f0345d590d1ee9e8e50c375171e412858
 
       <div class="tips">
         <span style="margin-right:20px;">账号: 13800000002</span>
@@ -57,7 +61,11 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import { getUserInfo } from '@/api/user'
+=======
+
+>>>>>>> b13b6d2f0345d590d1ee9e8e50c375171e412858
 import { validMobile } from '@/utils/validate'
 
 export default {
@@ -123,10 +131,17 @@ export default {
       })
     },
     // 测试token
+<<<<<<< HEAD
     async getToken() {
       const res = await getUserInfo()
       console.log(res)
     },
+=======
+    // async getToken() {
+    //   const res = await getUserInfo()
+    //   console.log(res)
+    // },
+>>>>>>> b13b6d2f0345d590d1ee9e8e50c375171e412858
     async doLogin() {
       try {
         const res = await this.$store.dispatch('user/userLogin', this.loginForm)
