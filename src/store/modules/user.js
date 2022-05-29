@@ -1,16 +1,21 @@
 import { getToken, setToken } from '@/utils/auth'
-import { login } from '@/api/user'
+import { getUserInfo, login } from '@/api/user'
 
 export default {
   namespaced: true,
   state: {
-    token: getToken()
+    token: getToken(),
+    userInfo: {}
   },
   mutations: {
     updateToken(state, payload) {
       state.token = payload
       // 存储到本地Cookie
       setToken(payload)
+    },
+
+    updateUserInfo(state, userInfo) {
+      state.userInfo = userInfo
     }
   },
   actions: {
@@ -20,6 +25,13 @@ export default {
       context.commit('updateToken', res.data)
 
       return res
+    },
+
+    // 获取用户信息
+    async getUserProfile(context) {
+      const res = await getUserInfo()
+      console.log(res)
+      context.commit('updateUserInfo', res.data)
     }
   },
   getters: {}

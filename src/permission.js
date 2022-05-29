@@ -5,11 +5,12 @@ import store from '@/store'
 
 const widthList = ['/login', '/404']
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   NProgress.start()
   const token = store.state.user.token
   if (token) {
     // 有token 表示已登录
+    await store.dispatch('user/getUserProfile')
     if (to.path === '/login') {
       // 你已经登陆了, 还要去登录页, 那我就不让你去, 直接把你打回首页
       next('/')
