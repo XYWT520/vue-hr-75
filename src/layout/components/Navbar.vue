@@ -52,8 +52,25 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      this.$confirm('确定退出?', '提示', { type: 'warning' })
+        .then(() => {
+          this.$store.dispatch('user/OutLogin')
+          // // 清空token
+          // this.$store.commit('user/removeToken')
+          // // 清空用户信息
+          // this.$store.commit('user/removeuserInfo')
+          // // 回到登录页
+          // this.$router.push('/login?return_url=' + encodeURIComponent(this.$route.fullPath))
+          this.$router.push({
+            path: '/login',
+            query: {
+              return_url: this.$route.fullPath
+            }
+          })
+          // 提醒用户
+          this.$message.success('退出成功')
+        })
+        .catch(() => {})
     }
   }
 }

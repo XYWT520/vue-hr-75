@@ -129,7 +129,8 @@ export default {
         this.$message.success(res.message)
 
         // 跳转到登录页
-        this.$router.push('/')
+        // console.log(this.$route) route 获取路径参数
+        this.$router.push(this.$route.query.return_url || '/')
       } catch (e) {
         // console.log(e)
         this.$message.error(e.message)
