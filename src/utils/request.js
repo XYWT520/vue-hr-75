@@ -25,6 +25,7 @@ service.interceptors.request.use(
 
 // 响应拦截器
 service.interceptors.response.use(response => {
+  // 如果返回的数据里的 success 是 false, 那么我就 return 出去一个 promise 的错误
   if (!response.data.success) {
     return Promise.reject(new Error(response.data.message))
   } else {

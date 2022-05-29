@@ -55,9 +55,13 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 
 import { getUserInfo } from '@/api/user'
 
+=======
+// import { getUserInfo } from '@/api/user'
+>>>>>>> 07e42f4e54d1624cae2bf8f409fa77efd19e953c
 import { validMobile } from '@/utils/validate'
 
 export default {
@@ -122,6 +126,7 @@ export default {
         this.doLogin()
       })
     },
+<<<<<<< HEAD
     // 测试token
 
     async getToken() {
@@ -129,15 +134,28 @@ export default {
       console.log(res)
     },
 
+=======
+    // 此处是调用上面的登录
+>>>>>>> 07e42f4e54d1624cae2bf8f409fa77efd19e953c
     async doLogin() {
       try {
         const res = await this.$store.dispatch('user/userLogin', this.loginForm)
         this.$message.success(res.message)
+
+        // 跳转到登录页
+        // console.log(this.$route) route 获取路径参数
+        this.$router.push(this.$route.query.return_url || '/')
       } catch (e) {
         // console.log(e)
         this.$message.error(e.message)
       }
     }
+
+    // 测试token
+    // async getToken() {
+    //   const res = await getUserInfo()
+    //   console.log(res)
+    // }
   }
 }
 </script>
