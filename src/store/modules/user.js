@@ -1,5 +1,5 @@
 import { getToken, setToken } from '@/utils/auth'
-import { getUserInfo, login } from '@/api/user'
+import { getUserInfo, login, getUserDetailById } from '@/api/user'
 
 export default {
   namespaced: true,
@@ -31,7 +31,10 @@ export default {
     async getUserProfile(context) {
       const res = await getUserInfo()
       console.log(res)
-      context.commit('updateUserInfo', res.data)
+      const res2 = await getUserDetailById(res.data.userId)
+      console.log(res2)
+      // 合并获取到的两个数据
+      context.commit('updateUserInfo', { ...res.data, ...res2.data })
     }
   },
   getters: {}
