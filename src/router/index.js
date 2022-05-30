@@ -38,11 +38,11 @@ export const asyncRoutes = [
   departments,
   employees,
   settings,
+  permissions,
   salarys,
   social_securitys,
   attendances,
-  approvals,
-  permissions
+  approvals
 ]
 
 /**
