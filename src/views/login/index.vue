@@ -45,8 +45,6 @@
 
       <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
 
-      <!-- <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="getToken">token</el-button> -->
-
       <div class="tips">
         <span style="margin-right:20px;">账号: 13800000002</span>
         <span> 密码: 123456</span>
@@ -57,7 +55,13 @@
 </template>
 
 <script>
+<<<<<<< HEAD
+
+import { getUserInfo } from '@/api/user'
+
+=======
 // import { getUserInfo } from '@/api/user'
+>>>>>>> 07e42f4e54d1624cae2bf8f409fa77efd19e953c
 import { validMobile } from '@/utils/validate'
 
 export default {
@@ -122,7 +126,17 @@ export default {
         this.doLogin()
       })
     },
+<<<<<<< HEAD
+    // 测试token
+
+    async getToken() {
+      const res = await getUserInfo()
+      console.log(res)
+    },
+
+=======
     // 此处是调用上面的登录
+>>>>>>> 07e42f4e54d1624cae2bf8f409fa77efd19e953c
     async doLogin() {
       try {
         const res = await this.$store.dispatch('user/userLogin', this.loginForm)
