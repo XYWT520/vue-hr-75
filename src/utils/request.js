@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from '@/store'
-
+import router from '@/router'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
@@ -32,6 +32,23 @@ service.interceptors.response.use(response => {
     return response.data
   }
 }, error => {
+  console.dir(error)
+  // token 失效
+  if (error.response.data.code === 10002) {
+    // 删除token 清楚用户数据
+    store.dispatch('user/OutLogin')
+    // 返回登录页
+    // router.push('/login')
+    // console.log(router.currentRoute.fullPath)  打印的结果是 /
+    // console.log(location.hash)  打印的结果是 #/form/index
+    router.push({
+      path: '/login',
+      query: {
+        return_url: location.hash.substring(1) //  打印的结果是 #/form/index  所以可以利用字符串的方法(字符串截取) 把前面的 # 给删除掉
+      }
+    })
+  }
+
   return Promise.reject(error) // 返回执行错误 让当前的执行链跳出成功 直接进入 catch
 })
 

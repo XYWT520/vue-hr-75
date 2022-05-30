@@ -8,9 +8,12 @@ const widthList = ['/login', '/404']
 router.beforeEach(async(to, from, next) => {
   NProgress.start()
   const token = store.state.user.token
-  if (token) {
-    // 有token 表示已登录
-    await store.dispatch('user/getUserProfile')
+  if (token) { // 有token 表示已登录
+    // 判断 如果有用户信息 就不需要再次请求了
+    if (!store.state.user.userInfo.userId) {
+      await store.dispatch('user/getUserProfile')
+    }
+
     if (to.path === '/login') {
       // 你已经登陆了, 还要去登录页, 那我就不让你去, 直接把你打回首页
       next('/')
