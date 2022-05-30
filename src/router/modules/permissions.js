@@ -6,6 +6,6 @@ export default {
     path: '', // 作为默认渲染路由
     name: 'permissions',
     component: () => import('@/views/permissions/permissions.vue'),
-    meta: { title: '权限', icon: 'lock' }
+    meta: { title: '权限管理', icon: 'unlock' }
   }]
 }

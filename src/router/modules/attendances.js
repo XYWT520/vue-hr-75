@@ -6,6 +6,6 @@ export default {
     path: '', // 作为默认渲染路由
     name: 'attendances',
     component: () => import('@/views/attendances/attendances.vue'),
-    meta: { title: '考勤', icon: 'skill' }
+    meta: { title: '考勤管理', icon: 'skill' }
   }]
 }

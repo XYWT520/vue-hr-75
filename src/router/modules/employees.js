@@ -6,6 +6,6 @@ export default {
     path: '', // 作为默认渲染路由
     name: 'employees',
     component: () => import('@/views/employees/employees.vue'),
-    meta: { title: '员工', icon: 'people' }
+    meta: { title: '员工管理', icon: 'people' }
   }]
 }

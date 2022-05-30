@@ -6,6 +6,6 @@ export default {
     path: '', // 作为默认渲染路由
     name: 'salarys',
     component: () => import('@/views/salarys/salarys.vue'),
-    meta: { title: '工资', icon: 'money' }
+    meta: { title: '工资管理', icon: 'money' }
   }]
 }

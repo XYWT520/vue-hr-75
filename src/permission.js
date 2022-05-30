@@ -2,6 +2,7 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import router from '@/router'
 import store from '@/store'
+import getPageTitle from './utils/get-page-title'
 
 const widthList = ['/login', '/404']
 
@@ -34,9 +35,17 @@ router.beforeEach(async(to, from, next) => {
   }
 })
 
-router.afterEach(() => {
+// 前置路由守卫可以设置多个
+router.beforeEach((to, form, next) => {
+  // 这里调用了花裤衩封装的方法 get-page-title
+  document.title = getPageTitle(to.meta.title)
+  next()
+})
+
+router.afterEach((to, form) => {
   NProgress.done()
-//   alert('哈哈哈')
+  // console.log(to)
+  // console.log(form)
 })
 // import router from './router'
 // import store from './store'
