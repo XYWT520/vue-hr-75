@@ -24,6 +24,26 @@ import Layout from '@/layout'
     activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
   }
  */
+// 导入
+import departments from './modules/departments'
+import employees from './modules/employees'
+import settings from './modules/settings'
+import salarys from './modules/salarys'
+import social_securitys from './modules/social_securitys'
+import attendances from './modules/attendances'
+import approvals from './modules/approvals'
+import permissions from './modules/permissions'
+// 配置8个路由
+export const asyncRoutes = [
+  departments,
+  employees,
+  settings,
+  salarys,
+  social_securitys,
+  attendances,
+  approvals,
+  permissions
+]
 
 /**
  * constantRoutes
@@ -62,7 +82,8 @@ export const constantRoutes = [
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  // 合并两个路由
+  routes: [...constantRoutes, ...asyncRoutes]
 })
 
 const router = createRouter()
