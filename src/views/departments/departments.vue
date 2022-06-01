@@ -57,31 +57,27 @@
 </template>
 
 <script>
+import { departmentsList } from '@/api/departments'
 export default {
   data() {
     return {
       // 依赖一份树形数据
-      list: [{
-        name: '财务部',
-        manager: '刘备',
-        children: [
-          {
-            name: '财务核算部',
-            manager: '张飞'
-          },
-          {
-            name: '税务核算部',
-            manager: '关羽'
-          }
-        ]
-      }]
+      list: []
     }
+  },
+  created() {
+    this.loadDepartmentsList()
   },
 
   methods: {
-    tset(scope) {
-      console.log(scope)
+    async loadDepartmentsList() {
+      const res = await departmentsList()
+      // console.log(res)
+      this.list = res.data.depts
     }
+    // tset(scope) {
+    //   console.log(scope)
+    // }
   }
 }
 </script>

@@ -4,6 +4,7 @@
       <el-card>
         <!-- 具体页面结构 -->
         组织架构
+        <!-- <svg-icon icon-class="bug" /> -->
       </el-card>
     </div>
   </div>
