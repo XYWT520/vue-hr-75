@@ -33,3 +33,11 @@ export function updateDepartDetail(data) {
     data
   })
 }
+
+// 根据 id 修改
+export function DeleteDepartDetail(id) {
+  return request({
+    method: 'delete',
+    url: '/company/department/' + id
+  })
+}

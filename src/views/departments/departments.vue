@@ -18,7 +18,7 @@
                     操作<i class="el-icon-arrow-down" />
                   </span>
                   <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="hShowAdd">添加子部门</el-dropdown-item>
+                    <el-dropdown-item @click.native="hShowAdd('')">添加子部门</el-dropdown-item>
                   </el-dropdown-menu>
                 </el-dropdown>
               </el-col>
@@ -44,6 +44,7 @@
                       <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item @click.native="hShowAdd(data.id)">添加子部门</el-dropdown-item>
                         <el-dropdown-item @click.native="hShowEdit(data.id)">编辑子部门</el-dropdown-item>
+                        <el-dropdown-item @click.native="hShowDel(data.id)">删除</el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
                   </el-col>
@@ -56,7 +57,7 @@
     </div>
     <!-- 添加的dialog -->
     <el-dialog
-      title="添加或编辑"
+      :title=" isEdit ? '编辑' : '添加'"
       :visible.sync="showVisible"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
@@ -68,7 +69,7 @@
 
     <!-- 编辑的dialog -->
     <el-dialog
-      title="添加或编辑"
+      title="编辑"
       :visible.sync="showVisibleEdit"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
@@ -79,7 +80,8 @@
       <!--
         解决方案:
         1. 使用 v-if 认为的让组件销毁
-        2. 随着 dialog 显示隐藏, 手动调用子组件的方法
+        2. 随着 dialog 显示隐藏, 手动调用子组件的方法, 数据重新加载
+
        -->
       <add-or-edit v-if="showVisibleEdit" :id="cutId" :is-edit="isEdit" @success="hsuccess" />
     </el-dialog>
@@ -87,7 +89,7 @@
 </template>
 
 <script>
-import { departmentsList } from '@/api/departments'
+import { DeleteDepartDetail, departmentsList } from '@/api/departments'
 import { tranListToTreeData } from '@/utils'
 import addOrEdit from './depDialog.vue'
 export default {
@@ -146,6 +148,22 @@ export default {
       this.isEdit = true
     },
 
+    // 删除按钮
+    hShowDel(id) {
+      this.$confirm('确定删除?', '提示', {
+
+      }).then(async() => {
+        try {
+          const res = await DeleteDepartDetail(id)
+          this.$message.success(res.message)
+          this.loadDepartmentsList()
+        } catch (e) {
+          this.$message.error(e.message)
+        }
+      }).catch(() => {})
+    },
+
+    // 关闭 dialog
     hsuccess() {
       this.showVisible = false
       this.showVisibleEdit = false
