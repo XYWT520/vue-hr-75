@@ -64,7 +64,7 @@
       width="50%"
     >
       <!-- :pid="cutId" 父向子传值 @success="hsuccess" 子向父传值 -->
-      <add-or-edit :id="cutId" :is-edit="isEdit" @success="hsuccess" @guuanbi="close" />
+      <add-or-edit v-if="showVisible" :id="cutId" :origin="origin" :is-edit="isEdit" @success="hsuccess" @guuanbi="close" />
     </el-dialog>
 
     <!-- 编辑的dialog -->
@@ -83,7 +83,7 @@
         2. 随着 dialog 显示隐藏, 手动调用子组件的方法, 数据重新加载
 
        -->
-      <add-or-edit v-if="showVisibleEdit" :id="cutId" :is-edit="isEdit" @success="hsuccess" @guuanbi="close" />
+      <add-or-edit v-if="showVisibleEdit" :id="cutId" :origin="origin" :is-edit="isEdit" @success="hsuccess" @guuanbi="close" />
     </el-dialog>
   </div>
 </template>
@@ -117,7 +117,8 @@ export default {
       showVisible: false,
       showVisibleEdit: false,
       cutId: '',
-      isEdit: false
+      isEdit: false,
+      origin: []
     }
   },
   created() {
@@ -130,6 +131,15 @@ export default {
       const res = await departmentsList()
       res.data.depts.shift()
       // console.log(res.data.depts)
+      // 过滤出来所需要的数据
+      // 1. 第一种写法
+      // this.origin = res.data.depts.map((item) => {
+      //   return { id: item.id, pid: item.pid, name: item.name, code: item.code }
+      // })
+      // 2.第二种写法
+      // 把过滤的数据传递给子组件
+      this.origin = res.data.depts.map(({ id, pid, name, code }) => ({ id, pid, name, code }))
+      // console.log(this.origin)
       this.list = tranListToTreeData(res.data.depts)
     },
 

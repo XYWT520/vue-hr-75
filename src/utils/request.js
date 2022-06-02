@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
 import router from '@/router'
+// import { Message } from 'element-ui'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
@@ -47,6 +48,7 @@ service.interceptors.response.use(response => {
         return_url: location.hash.substring(1) //  打印的结果是 #/form/index  所以可以利用字符串的方法(字符串截取) 把前面的 # 给删除掉
       }
     })
+    // Message.error()
   }
 
   return Promise.reject(error) // 返回执行错误 让当前的执行链跳出成功 直接进入 catch
