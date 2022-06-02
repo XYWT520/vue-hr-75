@@ -44,7 +44,7 @@
                       <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item @click.native="hShowAdd(data.id)">添加子部门</el-dropdown-item>
                         <el-dropdown-item @click.native="hShowEdit(data.id)">编辑子部门</el-dropdown-item>
-                        <el-dropdown-item @click.native="hShowDel(data.id)">删除</el-dropdown-item>
+                        <el-dropdown-item v-if="data.children.length === 0 " @click.native="hShowDel(data.id)">删除部门</el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
                   </el-col>
@@ -64,7 +64,7 @@
       width="50%"
     >
       <!-- :pid="cutId" 父向子传值 @success="hsuccess" 子向父传值 -->
-      <add-or-edit :id="cutId" :is-edit="isEdit" @success="hsuccess" />
+      <add-or-edit :id="cutId" :is-edit="isEdit" @success="hsuccess" @guuanbi="close" />
     </el-dialog>
 
     <!-- 编辑的dialog -->
@@ -83,7 +83,7 @@
         2. 随着 dialog 显示隐藏, 手动调用子组件的方法, 数据重新加载
 
        -->
-      <add-or-edit v-if="showVisibleEdit" :id="cutId" :is-edit="isEdit" @success="hsuccess" />
+      <add-or-edit v-if="showVisibleEdit" :id="cutId" :is-edit="isEdit" @success="hsuccess" @guuanbi="close" />
     </el-dialog>
   </div>
 </template>
@@ -169,6 +169,12 @@ export default {
       this.showVisibleEdit = false
 
       this.loadDepartmentsList()
+    },
+
+    // 取消按钮 关闭 dialog
+    close() {
+      this.showVisible = false
+      this.showVisibleEdit = false
     }
     // tset(scope) {
     //   console.log(scope)

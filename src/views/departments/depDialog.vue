@@ -55,7 +55,7 @@ export default {
   },
 
   methods: {
-    // 获取当前部门详情
+    // 获取当前部门详情 数据回填
     async loadDetail() {
       if (!this.isEdit) return
       const res = await getDepartDetail(this.id)
@@ -106,7 +106,8 @@ export default {
 
     // 取消按钮
     hCancel() {
-
+      // 关闭 dialog
+      this.$emit('guuanbi')
     },
 
     // 获取员工简单列表
