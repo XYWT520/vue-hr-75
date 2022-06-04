@@ -21,3 +21,21 @@ export function deleteRolesId(id) {
     method: 'delete'
   })
 }
+
+/** 新增角色 */
+export function addRoules(data) {
+  return request({
+    url: '/sys/role',
+    method: 'post',
+    data
+  })
+}
+
+/** 编辑角色 */
+export function EditRoules(data) {
+  return request({
+    url: '/sys/role/' + data.id,
+    method: 'put',
+    data
+  })
+}
