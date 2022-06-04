@@ -19,6 +19,7 @@ import '@/permission' // permission control
 // import PageTools from '@/components/pageTools'
 // Vue.component(PageTools.name, PageTools)
 
+// 封装自己的插件
 import MyUI from '@/components'
 Vue.use(MyUI)
 

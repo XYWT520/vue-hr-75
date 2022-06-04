@@ -24,7 +24,7 @@ export default {
   // 1. 调试工具显示名字
   // 2. 匹配缓存 keep-alive
   // 3. 访问 name 属性来做组件注册
-  // 4. cmponent 动态组件 (有路由就不需要它了)
+  // 4. component 动态组件 (有路由就不需要它了)
   name: 'PageTools'
 }
 </script>
