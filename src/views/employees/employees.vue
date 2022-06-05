@@ -6,7 +6,7 @@
           <span>总共: {{ total }} 条</span>
         </template>
         <template #right>
-          <el-button round size="small" type="warning">导入</el-button>
+          <el-button round size="small" type="warning" @click="$router.push('/employees/import')">导入</el-button>
           <el-button round size="small" type="danger">导出</el-button>
           <el-button round size="small" type="primary" @click="showDialog = true">新增员工</el-button>
         </template>
@@ -29,7 +29,11 @@
             </template>
           </el-table-column>
           <el-table-column label="部门" prop="departmentName" />
-          <el-table-column :sortable="true" label="入职时间" prop="timeOfEntry" />
+          <el-table-column sortable label="入职时间" prop="timeOfEntry">
+            <template v-slot="{row}">
+              {{ formatDate(row.timeOfEntry) }}
+            </template>
+          </el-table-column>
           <el-table-column label="操作">
             <template v-slot="{row}">
               <el-button type="text" size="small">查看</el-button>
@@ -56,8 +60,9 @@
       title="新增员工"
       width="45%"
       :visible.sync="showDialog"
+      @close="hCloseDialog"
     >
-      <empdialog @close="showDialog = false" />
+      <empdialog ref="AddEmployee" @close="showDialog = false" @success="hSuccess" />
     </el-dialog>
   </div>
 </template>
@@ -67,6 +72,7 @@ import { getEmployees, delEmployee } from '@/api/employess'
 // 导入枚举数据
 import employeesCode from '@/constant/employees'
 import empdialog from './empDialog.vue'
+import dayjs from 'dayjs'
 
 // 准备一个映射对象, 最终目标是: {1: '正式', 2: '非正式'}
 const hireTypeMap = {}
@@ -134,6 +140,30 @@ export default {
       }
     },
 
+    hSuccess() {
+      // 关闭 dialog
+      this.showDialog = false
+      // 判断最后一页是否满了
+      // if (this.total % this.q.size === 0) {
+      //   this.total++
+      // }
+      this.total++
+      // 算出最后一页赋值给 this.q.page
+      this.q.page = Math.ceil(this.total / this.q.size)
+      // 重新获取数据
+      this.loademployess()
+    },
+
+    hCloseDialog() {
+      this.$refs.AddEmployee.resetForm()
+    },
+
+    // 格式化时间
+    formatDate(data) {
+      return dayjs(data).format('YYYY-MM-DD')
+    },
+
+    // 枚举
     formatEmployment(code) {
       // 去 constant 中寻找常量
       // const result = employeesCode.hireType.find(item => item.id === code)
@@ -142,7 +172,6 @@ export default {
       // } else {
       //   return '未知'
       // }
-
       return hireTypeMap[code]
     }
   }

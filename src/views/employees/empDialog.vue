@@ -36,6 +36,7 @@
 import constant from '@/constant/employees'
 import { departmentsList } from '@/api/departments'
 import { tranListToTreeData } from '@/utils'
+import { addEmployee } from '@/api/employess'
 export default {
   data() {
     return {
@@ -82,9 +83,17 @@ export default {
   },
 
   methods: {
+    //   确定按钮 兜底校验
     async hSubmit() {
       const valid = await this.$refs.addForm.validate().catch(e => e)
       if (!valid) return
+      // 发请求
+      const res = await addEmployee(this.formData)
+      //   console.log(res)
+      //   提醒用户
+      this.$message.success(res.message)
+      //   关闭弹框
+      this.$emit('success')
     },
 
     // 获取组织架构部门列表
@@ -107,12 +116,28 @@ export default {
       this.formData.departmentName = data.name
       //   点击之后关闭 tree 树 由于显示隐藏的条件是数据的长度
       this.departments = []
+    },
+
+    resetForm() {
+      this.formData = {
+        username: '', // 用户名
+        mobile: '', // 手机号
+        formOfEmployment: '', // 聘用形式
+        workNumber: '', // 工号
+        departmentName: '', // 部门
+        timeOfEntry: '', // 入职时间
+        correctionTime: '' // 转正时间
+      }
+
+      this.$nextTick(() => {
+        this.$refs.addForm.clearValidate()
+      })
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .el-tree {
   width: 240px;
   user-select: none;
