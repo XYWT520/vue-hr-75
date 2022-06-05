@@ -56,6 +56,7 @@ export default {
         // console.log(ZhJian) // 这是中文的 键
         ZhJian.forEach(zhKey => {
           const enKey = mapInfo[zhKey]
+          console.log(enKey)
           if (enKey === 'timeOfEntry' || enKey === 'correctionTime') {
             enObj[enKey] = new Date(formatExcelDate(zhObj[zhKey]))
           } else {
@@ -64,6 +65,32 @@ export default {
         })
         return enObj
       })
+
+      // zhObj 是中文对象
+      // return results.map(zhObj => {
+      //   // 这是英文对象
+      //   const enObj = {}
+      //   // 将中文数组里面的键取出来赋值给 ZhJian
+      //   const ZhJian = Object.keys(zhObj)
+      //   // ZhJian = ['入职日期', '姓名', '工号', '手机号', '转正日期', '部门']
+      //   // console.log(ZhJian) // 打印出来的是中文的键
+      //   ZhJian.forEach(item => {
+      //     const enKey = mapInfo[item]
+      //     // const enKey = mapInfo[timeOfEntry]
+      //     // const enKey = mapInfo[mobile]
+      //     // const enKey = mapInfo[username]
+      //     // const enKey = mapInfo[mobile]
+      //     // const enKey = mapInfo[timeOfEntry]
+      //     // const enKey = mapInfo[mobile]
+
+      //     // console.log(mapInfo[zhKey]) // mapInfo[zhKey] 打印出来的是英文的键
+      //     enObj[enKey] = zhObj[item]
+      //     // enobj:{mobile:''}
+      //     // console.log(zhObj[zhKey]) // zhObj[zhKey] 打印出来的是 results 里的值
+      //     // console.log(enObj[enKey]) // enObj[enKey] 打印出来的是 results 里的值
+      //   })
+      //   return enObj
+      // })
     }
   }
 }
