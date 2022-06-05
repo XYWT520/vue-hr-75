@@ -63,7 +63,6 @@
                 @size-change="hSizeChange"
                 @current-change="hCurrentChange"
               />
-              <el-pagination layout="prev,pager,next" />
             </el-row>
           </el-tab-pane>
         </el-tabs>
@@ -206,9 +205,9 @@ export default {
 
       const result = await this.$confirm('确实删除?', '提示', { type: 'warning' })
         .catch(e => e)
-      console.log(result)
+      // console.log(result)
       // 判断 用户点的确定是 confirm 点的取消是 cancel
-      if (!result === confirm) return
+      if (result !== 'confirm') return
       // 删除 bug 修复
       if (this.rouls.length === 1 && this.q.page > 1) {
         this.q.page--

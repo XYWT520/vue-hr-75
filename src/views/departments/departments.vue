@@ -192,3 +192,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+body {
+  user-select: none;
+}
+</style>

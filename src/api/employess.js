@@ -17,3 +17,24 @@ export function getEmployees(params) {
     params
   })
 }
+
+/**
+ * @description: 删除员工
+ * @param {*} id 员工id
+ * @return {*}
+ */
+export function delEmployee(id) {
+  return request({
+    method: 'delete',
+    url: `/sys/user/${id}`
+  })
+}
+
+// 员工管理-新增员工
+export function addEmployee(data) {
+  return request({
+    method: 'post',
+    url: `/sys/user/`,
+    data
+  })
+}
