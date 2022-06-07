@@ -23,7 +23,7 @@
 
       <el-form-item label="员工头像">
         <!-- 放置上传图片 -->
-        <img>
+        <UploadImg />
       </el-form-item>
 
       <!-- 保存个人信息 -->
@@ -37,16 +37,24 @@
 <script>
 import { getUserDetailById } from '@/api/user'
 import { saveUserDetailById } from '@/api/employess'
+import UploadImg from '@/components/UploadImg'
+
 export default {
+  components: {
+    UploadImg
+  },
   data() {
     return {
-      userId: this.$route.query.id,
+      userId: this.$route.params.id,
       userInfo: {
         mobile: '',
         timeOfEntry: ''
       },
       rules: {
-        mobile: [{ required: true, message: '手机号', trigger: ['blur', 'change'] }],
+        mobile: [
+          { required: true, message: '手机号不能为空', trigger: ['blur', 'change'] },
+          { pattern: /^[1][3,4,5,7,8][0-9]{9}$/, required: true, message: '手机号格式错误', trigger: ['blur', 'change'] }
+        ],
         timeOfEntry: [{ required: true, message: '密码不能为空', trigger: ['blur', 'change'] }]
       }
     }
@@ -60,7 +68,7 @@ export default {
     // 获取用户基本信息
     async loadgetUserDetailById() {
       try {
-        const res = await getUserDetailById(this.$route.params.id)
+        const res = await getUserDetailById(this.userId)
         // console.log(res)
         this.userInfo = res.data
       } catch (e) {
