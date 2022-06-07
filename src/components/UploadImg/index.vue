@@ -8,8 +8,12 @@
       :before-upload="beforeAvatarUpload"
       :http-request="upload"
     >
-      <img v-if="imageUrl" :src="imageUrl" class="avatar">
-      <i v-else class="el-icon-plus avatar-uploader-icon" />
+      <!-- 如果我有进度条并且进度条小于100就显示 -->
+      <el-progress v-if="progress && progress < 100" type="circle" :percentage="progress" />
+      <!-- 如果我有照片我就显示 -->
+      <img v-if="value " :src="value" class="avatar">
+      <!-- 反之 icon 图标就不显示 -->
+      <i v-show="!progress" v-else class="el-icon-plus avatar-uploader-icon" />
     </el-upload>
   </div>
 </template>
@@ -25,9 +29,16 @@ const cos = new COS({
 
 export default {
   name: 'UploadImg',
+  props: {
+    value: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
-      imageUrl: ''
+      // imageUrl: '',
+      progress: 0
     }
   },
   methods: {
@@ -40,12 +51,18 @@ export default {
         Region: 'ap-nanjing', /* 存储桶所在地域，必须字段 */
         Key: res.file.name, /* 文件名 */
         StorageClass: 'STANDARD', // 上传模式, 标准模式
-        Body: res.file // 上传文件对象
+        Body: res.file, // 上传文件对象
+        onProgress: (progressData) => {
+          // console.log(progressData)
+          // console.log(JSON.stringify(progressData))
+          this.progress = parseInt(progressData.percent * 100)
+        }
       }, (err, data) => {
         console.log(err || data)
         // 上传成功之后
         if (data.statusCode === 200) {
-          this.imageUrl = `https:${data.Location}`
+          // this.imageUrl = `https:${data.Location}`
+          this.$emit('input', `https:${data.Location}`)
         }
       })
     },
@@ -90,8 +107,13 @@ export default {
   text-align: center;
 }
 .avatar {
-  width: 178px;
-  height: 178px;
+  width: 160px;
+  height: 160px;
   display: block;
 }
+.el-progress-circle {
+  width: 160px !important;
+  height: 160px !important;
+}
+
 </style>

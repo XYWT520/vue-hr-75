@@ -23,7 +23,9 @@
 
       <el-form-item label="员工头像">
         <!-- 放置上传图片 -->
-        <UploadImg />
+        <!-- <UploadImg :value="userInfo.staffPhoto" @input="event($event)" /> -->
+        <!-- <UploadImg :value="userInfo.staffPhoto" @input="e => userInfo.staffPhoto = e" /> -->
+        <UploadImg v-model="userInfo.staffPhoto" />
       </el-form-item>
 
       <!-- 保存个人信息 -->
@@ -45,10 +47,12 @@ export default {
   },
   data() {
     return {
+
       userId: this.$route.params.id,
       userInfo: {
         mobile: '',
-        timeOfEntry: ''
+        timeOfEntry: '',
+        staffPhoto: ''
       },
       rules: {
         mobile: [
@@ -65,6 +69,9 @@ export default {
   },
 
   methods: {
+    // event(e) {
+    //   this.userInfo.staffPhoto = e
+    // },
     // 获取用户基本信息
     async loadgetUserDetailById() {
       try {
