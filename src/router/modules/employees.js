@@ -15,6 +15,13 @@ export default {
       component: () => import('@/views/employees/import.vue'),
       meta: { title: '员工管理', icon: 'people' },
       hidden: true
+    },
+    {
+      path: 'detail/:id', // 作为默认渲染路由
+      name: 'detail',
+      component: () => import('@/views/employees/detail.vue'),
+      meta: { title: '员工管理', icon: 'people' },
+      hidden: true
     }
   ]
 }

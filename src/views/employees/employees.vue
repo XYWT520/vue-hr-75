@@ -7,7 +7,7 @@
         </template>
         <template #right>
           <el-button round size="small" type="warning" @click="$router.push('/employees/import')">导入</el-button>
-          <el-button round size="small" type="danger">导出</el-button>
+          <el-button round size="small" type="danger" @click="handleDownload">导出</el-button>
           <el-button round size="small" type="primary" @click="showDialog = true">新增员工</el-button>
         </template>
       </page-tools>
@@ -36,7 +36,9 @@
           </el-table-column>
           <el-table-column label="操作">
             <template v-slot="{row}">
-              <el-button type="text" size="small">查看</el-button>
+              <el-button type="text" size="small" @click="$router.push('/employees/detail/' + row.id)">查看</el-button>
+              <!-- <el-button type="text" size="small" @click="$router.push('/employees/detail?id=' + row.id)">查看</el-button> -->
+              <!-- <el-button type="text" size="small" @click="$router.push({path:'/employees/detail',query:{id:row.id} })">查看</el-button> -->
               <el-button type="text" size="small">分配角色</el-button>
               <el-button type="text" size="small" @click="hDelete(row.id)">删除</el-button>
             </template>
@@ -138,6 +140,64 @@ export default {
         if (e === 'cancel') return
         this.$message.error(e.message)
       }
+    },
+
+    // 导出Excel表格
+    async handleDownload() {
+      const mapInfo = {
+        'id': '编号',
+        'password': '密码',
+        'mobile': '手机号',
+        'username': '姓名',
+        'timeOfEntry': '入职日期',
+        'formOfEmployment': '聘用形式',
+        'correctionTime': '转正日期',
+        'workNumber': '工号',
+        'departmentName': '部门',
+        'staffPhoto': '头像地址'
+      }
+      // 发请求获取全部数据
+      const res = await getEmployees({ page: 1, size: this.total })
+      // console.log(res)
+      const list = res.data.rows
+
+      // const zhlist = list.map(item => {
+      //   const zhObj = {}
+      //   const enkeys = Object.keys(item)
+      //   // console.log(enkeys) // 英文的属性名
+      //   enkeys.forEach(items => {
+      //     const zhkeys = mapInfo[items]
+      //     // console.log(zhkeys)  // 中文的属性名
+      //     zhObj[zhkeys] = item[items]
+      //   })
+      //   return zhObj
+      // })
+
+      // 取出第一个数据
+      const first = list[0]
+      // 判断有没有第一个数据 没有就不让执行下面的代码
+      if (!first) return
+
+      // 取出 header
+      const header = Object.keys(first).map(item => mapInfo[item])
+
+      // 取出 data 里的数据
+      const data = list.map(item => {
+        const code = item['formOfEmployment']
+        item['formOfEmployment'] = hireTypeMap[code]
+        return Object.values(item)
+      })
+
+      this.downloadLoading = true
+      const excel = await import('@/vendor/Export2Excel')
+      excel.export_json_to_excel({
+        header, // 表头 必填
+        data, // 具体数据 必填
+        filename: 'excel-list', // 文件名称
+        autoWidth: true, // 宽度是否自适应
+        bookType: 'xlsx' // 生成的文件类型
+      })
+      this.downloadLoading = false
     },
 
     hSuccess() {

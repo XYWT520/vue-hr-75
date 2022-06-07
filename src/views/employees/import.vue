@@ -56,7 +56,7 @@ export default {
         // console.log(ZhJian) // 这是中文的 键
         ZhJian.forEach(zhKey => {
           const enKey = mapInfo[zhKey]
-          console.log(enKey)
+          // console.log(enKey)
           if (enKey === 'timeOfEntry' || enKey === 'correctionTime') {
             enObj[enKey] = new Date(formatExcelDate(zhObj[zhKey]))
           } else {

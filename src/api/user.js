@@ -17,7 +17,7 @@ export function getUserInfo() {
   })
 }
 
-// 获取用户的头像
+// 获取用户基本信息
 export function getUserDetailById(id) {
   return request({
     method: 'get',
