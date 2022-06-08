@@ -40,7 +40,7 @@
               <el-button type="text" size="small" @click="$router.push('/employees/detail/' + row.id)">查看</el-button>
               <!-- <el-button type="text" size="small" @click="$router.push('/employees/detail?id=' + row.id)">查看</el-button> -->
               <!-- <el-button type="text" size="small" @click="$router.push({path:'/employees/detail',query:{id:row.id} })">查看</el-button> -->
-              <el-button type="text" size="small">分配角色</el-button>
+              <el-button type="text" size="small" @click="assginRole(row.id)">分配角色</el-button>
               <el-button type="text" size="small" @click="hDelete(row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -67,6 +67,18 @@
     >
       <empdialog ref="AddEmployee" @close="showDialog = false" @success="hSuccess" />
     </el-dialog>
+
+    <!-- 分配角色分配角色分配角色分配角色分配角色分配角色分配角色分配角色分配角色分配角色 -->
+    <el-dialog
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      title="新增员工"
+      width="45%"
+      :visible.sync="showRoleDialog"
+      @closed="$refs.assginRole.resetRoleIds()"
+    >
+      <assginRole :id="curId" ref="assginRole" @success="showRoleDialog = false" />
+    </el-dialog>
   </div>
 </template>
 
@@ -76,6 +88,7 @@ import { getEmployees, delEmployee } from '@/api/employess'
 import employeesCode from '@/constant/employees'
 import empdialog from './empDialog.vue'
 import dayjs from 'dayjs'
+import assginRole from './assignRole.vue'
 
 // 准备一个映射对象, 最终目标是: {1: '正式', 2: '非正式'}
 const hireTypeMap = {} // {1: '正式', 2: '非正式'}
@@ -84,13 +97,16 @@ employeesCode.hireType.forEach(item => {
 })
 export default {
   components: {
-    empdialog
+    empdialog,
+    assginRole
   },
   data() {
     return {
       employess: [],
       total: 0,
       showDialog: false,
+      showRoleDialog: false,
+      curId: '',
       q: {
         page: 1,
         size: 5
@@ -243,6 +259,16 @@ export default {
       //   return '未知'
       // }
       return hireTypeMap[code]
+    },
+
+    // 分配角色分配角色分配角色分配角色分配角色分配角色分配角色分配角色分配角色分配角色
+    assginRole(id) {
+      this.curId = id
+      this.showRoleDialog = true
+      this.$nextTick(() => {
+        // 调用子组件的 loadgetRoleIds 方法
+        this.$refs.assginRole.loadgetRoleIds()
+      })
     }
   }
 }

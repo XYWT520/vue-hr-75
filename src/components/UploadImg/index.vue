@@ -73,6 +73,7 @@ export default {
     },
     beforeAvatarUpload(file) {
       // const isPNG = file.type === 'image/png'
+      // startsWith 以什么什么开头
       const isPNG = file.type.startsWith('image/')
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isPNG) {
