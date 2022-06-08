@@ -18,7 +18,8 @@
           <el-table-column label="姓名" prop="username" />
           <el-table-column label="头像" prop="username">
             <template v-slot="{row}">
-              <img class="avatar" :src="row.staffPhoto" alt="">
+              <!-- <img class="avatar" :src="row.staffPhoto" alt=""> -->
+              <ImggeHolder :src="row.staffPhoto" />
             </template>
           </el-table-column>
           <el-table-column label="工号" prop="workNumber" />
@@ -77,7 +78,7 @@ import empdialog from './empDialog.vue'
 import dayjs from 'dayjs'
 
 // 准备一个映射对象, 最终目标是: {1: '正式', 2: '非正式'}
-const hireTypeMap = {}
+const hireTypeMap = {} // {1: '正式', 2: '非正式'}
 employeesCode.hireType.forEach(item => {
   hireTypeMap[item.id] = item.value
 })
@@ -161,30 +162,39 @@ export default {
       // console.log(res)
       const list = res.data.rows
 
-      // const zhlist = list.map(item => {
-      //   const zhObj = {}
-      //   const enkeys = Object.keys(item)
-      //   // console.log(enkeys) // 英文的属性名
-      //   enkeys.forEach(items => {
-      //     const zhkeys = mapInfo[items]
-      //     // console.log(zhkeys)  // 中文的属性名
-      //     zhObj[zhkeys] = item[items]
-      //   })
-      //   return zhObj
-      // })
+      const zhlist = list.map(item => {
+        const zhObj = {}
+        const enkeys = Object.keys(item)
+        // console.log(enkeys) // 英文的属性名
+        enkeys.forEach(items => {
+          const zhkeys = mapInfo[items]
+          // console.log(zhkeys)  // 中文的属性名
+          zhObj[zhkeys] = item[items]
+        })
+        return zhObj
+      })
 
       // 取出第一个数据
-      const first = list[0]
+      const first = zhlist[0]
+      // const first = list[0]
       // 判断有没有第一个数据 没有就不让执行下面的代码
       if (!first) return
 
       // 取出 header
-      const header = Object.keys(first).map(item => mapInfo[item])
+      // const header = Object.keys(first).map(item => mapInfo[item])
+      const header = Object.keys(first)
 
       // 取出 data 里的数据
-      const data = list.map(item => {
-        const code = item['formOfEmployment']
-        item['formOfEmployment'] = hireTypeMap[code]
+      // const data = list.map(item => {
+      //   // 聘用形式
+      //   const code = item['formOfEmployment']
+      //   item['formOfEmployment'] = hireTypeMap[code]
+      //   return Object.values(item)
+      // })
+      const data = zhlist.map(item => {
+        // 聘用形式
+        const code = item['聘用形式']
+        item['聘用形式'] = hireTypeMap[code]
         return Object.values(item)
       })
 

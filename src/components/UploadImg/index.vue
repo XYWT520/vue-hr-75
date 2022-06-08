@@ -11,7 +11,7 @@
       <!-- 如果我有进度条并且进度条小于100就显示 -->
       <el-progress v-if="progress && progress < 100" type="circle" :percentage="progress" />
       <!-- 如果我有照片我就显示 -->
-      <img v-if="value " :src="value" class="avatar">
+      <img v-if="value && progress === 0" :src="value" class="avatar">
       <!-- 反之 icon 图标就不显示 -->
       <i v-show="!progress" v-else class="el-icon-plus avatar-uploader-icon" />
     </el-upload>
@@ -61,6 +61,8 @@ export default {
         console.log(err || data)
         // 上传成功之后
         if (data.statusCode === 200) {
+          // 进度复位
+          this.progress = 0
           // this.imageUrl = `https:${data.Location}`
           this.$emit('input', `https:${data.Location}`)
         }

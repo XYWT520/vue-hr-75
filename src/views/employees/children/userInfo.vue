@@ -92,6 +92,10 @@ export default {
         await saveUserDetailById(this.userInfo)
         //   console.log(res)
         this.$message.success('修改成功')
+        // 判断点击的是不是用户的id
+        if (this.userId === this.$store.getters.userId) {
+          this.$store.dispatch('user/getUserProfile')
+        }
       } catch (e) {
         this.$message.error(e.message)
       }
