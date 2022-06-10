@@ -6,9 +6,9 @@
           <span>总共: {{ total }} 条</span>
         </template>
         <template #right>
-          <el-button round size="small" type="warning" @click="$router.push('/employees/import')">导入</el-button>
-          <el-button round size="small" type="danger" @click="handleDownload">导出</el-button>
-          <el-button round size="small" type="primary" @click="showDialog = true">新增员工</el-button>
+          <el-button v-remove="'import_excel'" round size="small" type="warning" @click="$router.push('/employees/import')">导入Excel</el-button>
+          <el-button v-remove="'export_excel'" round size="small" type="danger" @click="handleDownload">导出Excel</el-button>
+          <el-button v-remove="'assgin_roles'" round size="small" type="primary" @click="showDialog = true">新增员工</el-button>
         </template>
       </page-tools>
 

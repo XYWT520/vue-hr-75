@@ -90,11 +90,11 @@ export default {
     return {
       q: {
         page: 1,
-        pagesize: 2
+        pagesize: 5
       },
       pageParams: {
         page: 1, // 查询第一页
-        pagesize: 2 // 每页两条  --- 要与pagination中page-size一致
+        pagesize: 5 // 每页两条  --- 要与pagination中page-size一致
       },
       roleForm: {
         name: '',

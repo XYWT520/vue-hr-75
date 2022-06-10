@@ -43,6 +43,22 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
+// 全局注册组件
+// Vue.compoonent
+// 参数1: 指令名称
+// 参数2: 配置对象, 需要定义一个 inserted 钩子函数: 在特定时间节点自动执行,不需要我们手动执行
+Vue.directive('remove', {
+  // 当指令绑定的标签被插入到真实 DOM 树上时触发
+  // 会携带一个参数,ell 真实 DOM 元素
+  inserted(el, binding) {
+    const points = store.state.user.userInfo.roles.points
+    // console.log(points)
+    if (!points.includes(binding.value)) {
+      el.remove()
+    }
+  }
+})
+
 new Vue({
   el: '#app',
   router,
