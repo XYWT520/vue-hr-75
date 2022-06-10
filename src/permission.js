@@ -12,8 +12,16 @@ router.beforeEach(async(to, from, next) => {
   if (token) { // 有token 表示已登录
     // 判断 如果有用户信息 就不需要再次请求了
     if (!store.state.user.userInfo.userId) {
-      await store.dispatch('user/getUserProfile')
-      router.addRoutes(asyncRoutes)
+      const res = await store.dispatch('user/getUserProfile')
+
+      // 根据用户权限, 筛选路由
+      // console.log('这里有权限信息:', res)
+      const menus = res.roles.menus
+      console.log(menus, asyncRoutes)
+      const filterRouter = asyncRoutes.filter(item => menus.includes(item.children.name))
+      // console.log(filterRouter)
+      router.addRoutes(filterRouter)
+      store.commit('menu/updataMenuList', filterRouter)
     }
 
     if (to.path === '/login') {

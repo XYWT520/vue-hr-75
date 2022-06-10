@@ -47,6 +47,7 @@ export default {
       // console.log(res2)
       // 合并获取到的两个数据
       context.commit('updateUserInfo', { ...res.data, ...res2.data })
+      return { ...res.data, ...res2.data }
     },
 
     // 退出登录模块
