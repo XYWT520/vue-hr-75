@@ -63,6 +63,7 @@ export default {
       // 三元表达式
       newOriginList.includes(value) ? callback(new Error(value + '已存在')) : callback()
     }
+
     const validName = (rule, value, callback) => {
       // console.log(value)
       // 需求二:编辑时,通过 id 找扫兄弟部门.并判断是否在其中
@@ -78,9 +79,7 @@ export default {
         // 进入添加
         nameList = this.origin.filter(item => item.pid === this.id).map(({ name }) => name)
       }
-
       // 编辑部门 // filter: 过滤出「除了」正在编辑的部门以外的所有部门
-
       nameList.includes(value) ? callback(new Error(value + '已存在')) : callback()
     }
     return {

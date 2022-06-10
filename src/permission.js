@@ -1,6 +1,6 @@
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-import router from '@/router'
+import router, { asyncRoutes } from '@/router'
 import store from '@/store'
 import getPageTitle from './utils/get-page-title'
 
@@ -13,6 +13,7 @@ router.beforeEach(async(to, from, next) => {
     // 判断 如果有用户信息 就不需要再次请求了
     if (!store.state.user.userInfo.userId) {
       await store.dispatch('user/getUserProfile')
+      router.addRoutes(asyncRoutes)
     }
 
     if (to.path === '/login') {

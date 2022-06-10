@@ -45,7 +45,7 @@
               <el-table-column prop="description" label="描述" />
               <el-table-column label="操作">
                 <template v-slot="{row}">
-                  <el-button size="small" type="success">分配权限</el-button>
+                  <el-button size="small" type="success" @click="Assign(row.id)">分配权限</el-button>
                   <el-button size="small" type="primary" @click="Edit(row)">编辑</el-button>
                   <el-button size="small" type="danger" @click="Del(row.id)">删除</el-button>
                 </template>
@@ -67,13 +67,25 @@
           </el-tab-pane>
         </el-tabs>
       </el-card>
+      <el-dialog
+        title="分配权限"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :visible.sync="showDialogAssign"
+      >
+        <AssignPermission v-if="showDialogAssign" :id="cutId" @close="showDialogAssign=false" />
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
 import { getRoles, deleteRolesId, addRoules, EditRoules } from '@/api/setting'
+import AssignPermission from './assignPermission.vue'
 export default {
+  components: {
+    AssignPermission
+  },
   data() {
     return {
       q: {
@@ -95,7 +107,9 @@ export default {
       showDialog: false,
       isEdit: false,
       rouls: [],
-      total: 0
+      total: 0,
+      showDialogAssign: false,
+      cutId: ''
     }
   },
 
@@ -233,6 +247,12 @@ export default {
         description: ''
       }
       this.$refs.roleForm.resetFields()
+    },
+
+    // 分配权限
+    Assign(id) {
+      this.showDialogAssign = true
+      this.cutId = id
     }
   }
 }
