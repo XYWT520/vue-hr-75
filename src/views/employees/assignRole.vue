@@ -44,7 +44,7 @@ export default {
       this.roles = res.data.rows
     },
 
-    // 根据父组件传递过来的 id 获取    角色对应的 id
+    // 根据父组件传递过来的 id 获取   角色对应的 id
     async loadgetRoleIds() {
       const res = await getUserDetailById(this.id)
       //   console.log(res)
