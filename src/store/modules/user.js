@@ -1,6 +1,6 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { getUserInfo, login, getUserDetailById } from '@/api/user'
-
+import { resetRouter } from '@/router'
 export default {
   namespaced: true,
   state: {
@@ -57,6 +57,8 @@ export default {
       context.commit('removeToken')
       // 删除用户信息
       context.commit('removeuserInfo')
+      // 3. 重置路由
+      resetRouter()
     }
   },
   getters: {}

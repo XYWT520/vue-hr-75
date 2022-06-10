@@ -17,11 +17,23 @@ router.beforeEach(async(to, from, next) => {
       // 根据用户权限, 筛选路由
       // console.log('这里有权限信息:', res)
       const menus = res.roles.menus
-      console.log(menus, asyncRoutes)
-      const filterRouter = asyncRoutes.filter(item => menus.includes(item.children.name))
+      // console.log(menus, asyncRoutes)
+      // const filterRouter = asyncRoutes.filter(item => {
+      //   return
+      // })
+      const filterRouter = asyncRoutes.filter(item => menus.includes(item.children[0].name))
       // console.log(filterRouter)
+      // 解决刷新 404 的 bug
+      filterRouter.push({ path: '*', redirect: '/404', hidden: true })
+
       router.addRoutes(filterRouter)
       store.commit('menu/updataMenuList', filterRouter)
+
+      // 解决刷新出现的白屏bug
+      next({
+        ...to, // next({ ...to })的目的,是保证路由添加完了再进入页面 (可以理解为重进一次)
+        replace: true // 重进一次, 不保留重复历史
+      })
     }
 
     if (to.path === '/login') {
